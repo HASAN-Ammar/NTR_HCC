@@ -1,0 +1,17 @@
+{
+  "preop_features": [
+    "Gender",
+    "Age_at_intervention",
+    "Alcohol",
+    "HCV",
+    "HBV",
+    "NASH",
+    "Hemochromatosis",
+    "ALBI_grade",
+    "Largest_nodule_diameter",
+    "Number_of_tumors_on_the_specimen",
+    "BCLC_before_intervention",
+    "Preop_AFP",
+    "Cirrhosis"
+  ]
+}
