@@ -140,11 +140,35 @@ def validate_uploaded_df(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     for col in numeric_cols:
         if col in df.columns:
             coerced = pd.to_numeric(df[col], errors="coerce")
-            if coerced.isna() & ~df[col].isna():
+            if (coerced.isna() & ~df[col].isna()).any():
                 errors.append({"column": col, "invalid_values": "Non-numeric values"})
             df[col] = coerced
 
     return df, pd.DataFrame(errors)
+
+
+def coerce_input_df(df: pd.DataFrame) -> pd.DataFrame:
+    numeric_cols = {
+        "Age_at_intervention",
+        "Largest_nodule_diameter",
+        "Number_of_tumors_on_the_specimen",
+        "Preop_AFP",
+    }
+    binary_cols = {
+        "Alcohol",
+        "HCV",
+        "HBV",
+        "NASH",
+        "Hemochromatosis",
+        "Cirrhosis",
+    }
+    for col in numeric_cols:
+        if col in df.columns:
+            df[col] = pd.to_numeric(df[col], errors="coerce")
+    for col in binary_cols:
+        if col in df.columns:
+            df[col] = pd.to_numeric(df[col], errors="coerce")
+    return df
 
 
 def recommendation_text(p_stage1: float, p_stage2: float, t1: float, t2: float) -> str:
@@ -284,6 +308,7 @@ if file is not None:
         df = None
     
     if df is not None:
+        df = coerce_input_df(df)
         preds = build_predictions(df, stage1_model, stage2_model, preop_features)
         pred_df = pd.concat([df.reset_index(drop=True), preds.reset_index(drop=True)], axis=1)
         if "Recurrence_target" in pred_df.columns or "NTR_target" in pred_df.columns:
@@ -291,6 +316,7 @@ if file is not None:
 
 if run_manual:
     df_manual = pd.DataFrame([manual])
+    df_manual = coerce_input_df(df_manual)
     preds = build_predictions(df_manual, stage1_model, stage2_model, preop_features)
     pred_df = pd.concat([df_manual, preds], axis=1)
     pred_df["Recommendation"] = [
