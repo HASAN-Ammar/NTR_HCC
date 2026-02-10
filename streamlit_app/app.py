@@ -162,12 +162,20 @@ def coerce_input_df(df: pd.DataFrame) -> pd.DataFrame:
         "Hemochromatosis",
         "Cirrhosis",
     }
+    categorical_cols = {
+        "Gender",
+        "ALBI_grade",
+        "BCLC_before_intervention",
+    }
     for col in numeric_cols:
         if col in df.columns:
-            df[col] = pd.to_numeric(df[col], errors="coerce")
+            df[col] = pd.to_numeric(df[col], errors="coerce").astype(float)
     for col in binary_cols:
         if col in df.columns:
-            df[col] = pd.to_numeric(df[col], errors="coerce")
+            df[col] = pd.to_numeric(df[col], errors="coerce").astype(float)
+    for col in categorical_cols:
+        if col in df.columns:
+            df[col] = df[col].astype(str)
     return df
 
 
