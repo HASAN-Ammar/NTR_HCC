@@ -243,15 +243,15 @@ col1, col2, col3 = st.columns(3)
 with col1:
     gender = st.selectbox("Gender", ["M", "F"], key="gender_manual")
 with col2:
-    age_at_intervention = st.number_input("Age at intervention", min_value=0.0, value=0.0, key="age_manual")
+    age_at_intervention = st.number_input("Age at intervention", min_value=1, value=1, step=1, format="%d", key="age_manual")
 with col3:
     alcohol = st.selectbox("Alcohol (0/1)", binary_options, key="alcohol_manual")
 
 col4, col5, col6, col7 = st.columns(4)
 with col4:
-    hcv = st.selectbox("HCV (0/1)", binary_options, key="hcv_manual")
+    vhc = st.selectbox("VHC (0/1)", binary_options, key="vhc_manual")
 with col5:
-    hbv = st.selectbox("HBV (0/1)", binary_options, key="hbv_manual")
+    vhb = st.selectbox("VHB (0/1)", binary_options, key="vhb_manual")
 with col6:
     nash = st.selectbox("NASH (0/1)", binary_options, key="nash_manual")
 with col7:
@@ -261,7 +261,7 @@ col8, col9, col10 = st.columns(3)
 with col8:
     albi_grade = st.selectbox("ALBI grade", ["Grade 1", "Grade 2", "Grade 3"], key="albi_manual")
 with col9:
-    largest_nodule_diameter = st.number_input("Nodule diameter", min_value=0.0, value=0.0, key="nodule_manual")
+    largest_nodule_diameter = st.number_input("Size of the largest nodule (cm)", min_value=1, value=1, step=1, format="%d", key="nodule_manual")
 with col10:
     number_of_tumors = st.number_input("Number of tumors", min_value=0, value=0, step=1, format="%d", key="tumors_manual")
 
@@ -269,7 +269,7 @@ col11, col12, col13 = st.columns(3)
 with col11:
     bclc_before_intervention = st.selectbox("BCLC before intervention", ["0", "A", "B", "C"], key="bclc_manual")
 with col12:
-    preop_afp = st.number_input("Preop AFP", min_value=0.0, value=0.0, key="afp_manual")
+    preop_afp = st.number_input("Preop AFP", min_value=0, value=0, step=1, format="%d", key="afp_manual")
 with col13:
     cirrhosis = st.selectbox("Cirrhosis (0/1)", binary_options, key="cirrhosis_manual")
 
@@ -277,8 +277,8 @@ manual = {
     "Gender": gender,
     "Age_at_intervention": age_at_intervention,
     "Alcohol": alcohol,
-    "HCV": hcv,
-    "HBV": hbv,
+    "HCV": vhc,
+    "HBV": vhb,
     "NASH": nash,
     "Hemochromatosis": hemochromatosis,
     "ALBI_grade": albi_grade,
