@@ -253,7 +253,7 @@ with col4:
 with col5:
     vhb = st.selectbox("VHB (0/1)", binary_options, key="vhb_manual")
 with col6:
-    nash = st.selectbox("NASH (0/1)", binary_options, key="nash_manual")
+    masld = st.selectbox("MASLD (0/1)", binary_options, key="masld_manual")
 with col7:
     hemochromatosis = st.selectbox("Hemochromatosis (0/1)", binary_options, key="hemo_manual")
 
@@ -279,7 +279,7 @@ manual = {
     "Alcohol": alcohol,
     "HCV": vhc,
     "HBV": vhb,
-    "NASH": nash,
+    "NASH": masld,
     "Hemochromatosis": hemochromatosis,
     "ALBI_grade": albi_grade,
     "Largest_nodule_diameter": largest_nodule_diameter,
