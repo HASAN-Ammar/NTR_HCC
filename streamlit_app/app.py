@@ -209,45 +209,7 @@ st.caption("Stage1: P(Recurrence). Stage2: P(NTR | Recurrence). Overall: P(NTR)=
 st.markdown(
     """
     <style>
-    .stApp {
-        background:
-            repeating-linear-gradient(0deg, rgba(210, 110, 80, 0.06), rgba(210, 110, 80, 0.06) 1px, transparent 1px, transparent 28px),
-            repeating-linear-gradient(90deg, rgba(210, 110, 80, 0.06), rgba(210, 110, 80, 0.06) 1px, transparent 1px, transparent 28px),
-            radial-gradient(900px 420px at 85% -10%, rgba(222, 66, 66, 0.18), transparent 60%),
-            radial-gradient(600px 280px at 10% 0%, rgba(255, 140, 90, 0.16), transparent 55%),
-            linear-gradient(180deg, #fff7f3 0%, #fff 45%, #f8fbff 100%);
-    }
-    .stApp::before {
-        content: "";
-        position: fixed;
-        top: 8%;
-        right: 6%;
-        width: 520px;
-        height: 360px;
-        background-image: url("data:image/svg+xml,%3Csvg%20width%3D%27520%27%20height%3D%27360%27%20viewBox%3D%270%200%20520%20360%27%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%3E%3Cpath%20d%3D%27M86%20210c-20-46-2-98%2040-125%2054-35%20134-28%20178%2016%2010%2010%2025%2016%2040%2015%2029-3%2055-17%2081-20%2044-4%2088%209%20108%2044%2024%2040%2012%2095-22%20126-45%2041-108%2062-182%2059-67-3-146-14-198-53-28-22-45-49-60-62-9-7-20-10-30-12z%27%20fill%3D%27rgba(184%2C%2042%2C%2048%2C%200.08)%27%20stroke%3D%27rgba(184%2C%2042%2C%2048%2C%200.16)%27%20stroke-width%3D%272%27/%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-size: contain;
-        opacity: 0.9;
-        z-index: 0;
-        pointer-events: none;
-    }
-    .stApp::after {
-        content: "";
-        position: fixed;
-        bottom: -8%;
-        left: -6%;
-        width: 520px;
-        height: 280px;
-        background: radial-gradient(circle at 70% 40%, rgba(236, 140, 88, 0.14), rgba(236, 140, 88, 0));
-        border-radius: 55% 45% 60% 40% / 45% 55% 45% 55%;
-        filter: blur(3px);
-        z-index: 0;
-        pointer-events: none;
-    }
-    section.main > div {
-        position: relative;
-        z-index: 1;
-    }
+    /* Custom styles can go here, but background and image removed */
     </style>
     """,
     unsafe_allow_html=True,
@@ -277,20 +239,54 @@ st.divider()
 st.header("Manual entry (one patient)")
 binary_options = [0, 1]
 
+col1, col2, col3 = st.columns(3)
+with col1:
+    gender = st.selectbox("Gender", ["M", "F"], key="gender_manual")
+with col2:
+    age_at_intervention = st.number_input("Age at intervention", min_value=0.0, value=0.0, key="age_manual")
+with col3:
+    alcohol = st.selectbox("Alcohol (0/1)", binary_options, key="alcohol_manual")
+
+col4, col5, col6, col7 = st.columns(4)
+with col4:
+    hcv = st.selectbox("HCV (0/1)", binary_options, key="hcv_manual")
+with col5:
+    hbv = st.selectbox("HBV (0/1)", binary_options, key="hbv_manual")
+with col6:
+    nash = st.selectbox("NASH (0/1)", binary_options, key="nash_manual")
+with col7:
+    hemochromatosis = st.selectbox("Hemochromatosis (0/1)", binary_options, key="hemo_manual")
+
+col8, col9, col10 = st.columns(3)
+with col8:
+    albi_grade = st.selectbox("ALBI grade", ["Grade 1", "Grade 2", "Grade 3"], key="albi_manual")
+with col9:
+    largest_nodule_diameter = st.number_input("Nodule diameter", min_value=0.0, value=0.0, key="nodule_manual")
+with col10:
+    number_of_tumors = st.number_input("Number of tumors", min_value=0.0, value=0.0, key="tumors_manual")
+
+col11, col12, col13 = st.columns(3)
+with col11:
+    bclc_before_intervention = st.selectbox("BCLC before intervention", ["0", "A", "B", "C"], key="bclc_manual")
+with col12:
+    preop_afp = st.number_input("Preop AFP", min_value=0.0, value=0.0, key="afp_manual")
+with col13:
+    cirrhosis = st.selectbox("Cirrhosis (0/1)", binary_options, key="cirrhosis_manual")
+
 manual = {
-    "Gender": st.selectbox("Gender", ["M", "F"]),
-    "Age_at_intervention": st.number_input("Age at intervention", min_value=0.0, value=0.0),
-    "Alcohol": st.selectbox("Alcohol (0/1)", binary_options),
-    "HCV": st.selectbox("HCV (0/1)", binary_options),
-    "HBV": st.selectbox("HBV (0/1)", binary_options),
-    "NASH": st.selectbox("NASH (0/1)", binary_options),
-    "Hemochromatosis": st.selectbox("Hemochromatosis (0/1)", binary_options),
-    "ALBI_grade": st.selectbox("ALBI grade", ["Grade 1", "Grade 2", "Grade 3"]),
-    "Largest_nodule_diameter": st.number_input("Largest nodule diameter", min_value=0.0, value=0.0),
-    "Number_of_tumors_on_the_specimen": st.number_input("Number of tumors", min_value=0.0, value=0.0),
-    "BCLC_before_intervention": st.selectbox("BCLC before intervention", ["0", "A", "B", "C"]),
-    "Preop_AFP": st.number_input("Preop AFP", min_value=0.0, value=0.0),
-    "Cirrhosis": st.selectbox("Cirrhosis (0/1)", binary_options),
+    "Gender": gender,
+    "Age_at_intervention": age_at_intervention,
+    "Alcohol": alcohol,
+    "HCV": hcv,
+    "HBV": hbv,
+    "NASH": nash,
+    "Hemochromatosis": hemochromatosis,
+    "ALBI_grade": albi_grade,
+    "Largest_nodule_diameter": largest_nodule_diameter,
+    "Number_of_tumors_on_the_specimen": number_of_tumors,
+    "BCLC_before_intervention": bclc_before_intervention,
+    "Preop_AFP": preop_afp,
+    "Cirrhosis": cirrhosis,
 }
 
 run_manual = st.button("Run manual prediction")
@@ -335,6 +331,7 @@ if run_manual:
             float(threshold_stage2),
         )
     ]
+
 
 if pred_df is None:
     st.info("Upload a file or run manual prediction.")
@@ -383,15 +380,18 @@ else:
         title="Clinical decision quadrants",
         range_x=[0, 1],
         range_y=[0, 1],
-        opacity=0.75,
+        opacity=0.9,
+        color_discrete_sequence=["#0074D9"],
+        height=600,
     )
+    # Add quadrant lines (bolder and solid)
     fig.add_shape(
         type="line",
         x0=float(threshold_stage1),
         x1=float(threshold_stage1),
         y0=0,
         y1=1,
-        line=dict(color="#ff8a2a", dash="dash", width=1),
+        line=dict(color="#FF4136", dash="solid", width=3),
     )
     fig.add_shape(
         type="line",
@@ -399,7 +399,7 @@ else:
         x1=1,
         y0=float(threshold_stage2),
         y1=float(threshold_stage2),
-        line=dict(color="#3cb9a0", dash="dash", width=1),
+        line=dict(color="#2ECC40", dash="solid", width=3),
     )
     if show_full_labels:
         label_low = "Low Stage 1 risk -> resection appropriate"
@@ -410,36 +410,56 @@ else:
         label_high_low = "High Stage 1, low Stage 2"
         label_high_high = "High Stage 1 + High Stage 2"
 
+    # Improved quadrant annotations with background and larger font
     fig.add_annotation(
-        x=0.02,
-        y=0.98,
+        x=0.15,
+        y=0.85,
         xref="x",
         yref="y",
         text=label_low,
         showarrow=False,
-        font=dict(size=11),
-        align="left",
+        font=dict(size=16, color="#222"),
+        align="center",
+        bgcolor="#E3F6FC",
+        bordercolor="#0074D9",
+        borderpad=4,
+        opacity=0.95,
     )
     fig.add_annotation(
-        x=0.98,
-        y=0.02,
+        x=0.85,
+        y=0.15,
         xref="x",
         yref="y",
         text=label_high_low,
         showarrow=False,
-        font=dict(size=11),
-        align="right",
+        font=dict(size=16, color="#222"),
+        align="center",
+        bgcolor="#F6FCE3",
+        bordercolor="#2ECC40",
+        borderpad=4,
+        opacity=0.95,
     )
     fig.add_annotation(
-        x=0.98,
-        y=0.98,
+        x=0.85,
+        y=0.85,
         xref="x",
         yref="y",
         text=label_high_high,
         showarrow=False,
-        font=dict(size=11),
-        align="right",
+        font=dict(size=16, color="#222"),
+        align="center",
+        bgcolor="#FCE3E3",
+        bordercolor="#FF4136",
+        borderpad=4,
+        opacity=0.95,
     )
-    fig.update_traces(marker=dict(color="#2b6cb0", line=dict(color="white", width=0.5)))
-    fig.update_layout(xaxis_title="P(Recurrence)", yaxis_title="P(NTR | Recurrence)")
+    fig.update_traces(marker=dict(color="#0074D9", size=18, line=dict(color="#fff", width=2)))
+    fig.update_layout(
+        xaxis_title="P(Recurrence)",
+        yaxis_title="P(NTR | Recurrence)",
+        plot_bgcolor="#f9f9f9",
+        paper_bgcolor="#f9f9f9",
+        margin=dict(l=40, r=40, t=60, b=40),
+        font=dict(family="Arial", size=14),
+    )
     st.plotly_chart(fig, use_container_width=True)
