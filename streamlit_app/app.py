@@ -263,7 +263,7 @@ with col8:
 with col9:
     largest_nodule_diameter = st.number_input("Nodule diameter", min_value=0.0, value=0.0, key="nodule_manual")
 with col10:
-    number_of_tumors = st.number_input("Number of tumors", min_value=0.0, value=0.0, key="tumors_manual")
+    number_of_tumors = st.number_input("Number of tumors", min_value=0, value=0, step=1, format="%d", key="tumors_manual")
 
 col11, col12, col13 = st.columns(3)
 with col11:
