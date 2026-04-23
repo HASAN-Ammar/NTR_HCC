@@ -203,8 +203,8 @@ preop_features = load_features()
 # UI
 # ----------------------------
 
-st.title("HCC Recurrence and NTR Risk (RF)")
-st.caption("Stage1: P(Recurrence). Stage2: P(NTR | Recurrence). Overall: P(NTR)=product.")
+st.title("Hepatocellular Carcinoma (HCC): Risk of Recurrence and Non-Transplantable Recurrence")
+st.caption("Two-stage prediction model (Random Forest)")
 
 st.markdown(
     """
